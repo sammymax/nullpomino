@@ -44,6 +44,7 @@ import mu.nu.nullpo.game.component.Statistics;
 import mu.nu.nullpo.game.component.WallkickResult;
 import mu.nu.nullpo.game.subsystem.ai.DummyAI;
 import mu.nu.nullpo.game.subsystem.wallkick.Wallkick;
+import mu.nu.nullpo.gui.slick.NullpoMinoSlick;
 import mu.nu.nullpo.util.GeneralUtil;
 import net.omegaboshi.nullpomino.game.subsystem.randomizer.MemorylessRandomizer;
 import net.omegaboshi.nullpomino.game.subsystem.randomizer.Randomizer;
@@ -626,6 +627,9 @@ public class GameEngine {
 
 	/** List of block colors to use for random block colors. */
 	public int[] blockColors;
+    
+    /** Skin for ghost */
+	public int gSkin;
 
 	/** Number of colors in blockColors to use. */
 	public int numColors;
@@ -665,7 +669,8 @@ public class GameEngine {
 		this.ruleopt = new RuleOptions();
 		this.wallkick = null;
 		this.randomizer = null;
-
+        
+        gSkin = -1;
 		owRotateButtonDefaultRight = -1;
 		owSkin = -1;
 		owMinDAS = -1;
@@ -726,16 +731,19 @@ public class GameEngine {
 			String tempRand = owner.replayProp.getProperty(playerID + ".replay.randSeed", "0");
 			randSeed = Long.parseLong(tempRand, 16);
 			random = new Random(randSeed);
-
+            
 			owRotateButtonDefaultRight = owner.replayProp.getProperty(playerID + ".tuning.owRotateButtonDefaultRight", -1);
 			owSkin = owner.replayProp.getProperty(playerID + ".tuning.owSkin", -1);
+            gSkin = owner.replayProp.getProperty(playerID + ".tuning.gSkin", owSkin);
 			owMinDAS = owner.replayProp.getProperty(playerID + ".tuning.owMinDAS", -1);
 			owMaxDAS = owner.replayProp.getProperty(playerID + ".tuning.owMaxDAS", -1);
 			owDasDelay = owner.replayProp.getProperty(playerID + ".tuning.owDasDelay", -1);
 			owReverseUpDown = owner.replayProp.getProperty(playerID + ".tuning.owReverseUpDown", false);
 			owMoveDiagonal = owner.replayProp.getProperty(playerID + ".tuning.owMoveDiagonal", -1);
-			owBlockOutlineType = owner.replayProp.getProperty(playerID + ".tuning.owBlockOutlineType", -1);
-			owBlockShowOutlineOnly = owner.replayProp.getProperty(playerID + ".tuning.owBlockShowOutlineOnly", -1);
+			owBlockOutlineType = NullpoMinoSlick.propGlobal.getProperty("0.tuning.owBlockOutlineType", 0);
+            owBlockOutlineType = owner.replayProp.getProperty(playerID + ".tuning.owBlockOutlineType", owBlockOutlineType);
+			owBlockShowOutlineOnly = NullpoMinoSlick.propGlobal.getProperty("0.tuning.owBlockShowOutlineOnly", 0);
+            owBlockShowOutlineOnly = owner.replayProp.getProperty(playerID + ".tuning.owBlockShowOutlineOnly", owBlockShowOutlineOnly);
 
 			// Fixing old replays to accomodate for new DAS notation
 			if (versionMajor < 7.3) {
@@ -1638,6 +1646,7 @@ public class GameEngine {
 			owner.replayProp.setProperty("timestamp.gmt", GeneralUtil.exportCalendarString());
 		}
 
+        owner.replayProp.setProperty(playerID + ".tuning.gSkin", gSkin);
 		owner.replayProp.setProperty(playerID + ".tuning.owRotateButtonDefaultRight", owRotateButtonDefaultRight);
 		owner.replayProp.setProperty(playerID + ".tuning.owSkin", owSkin);
 		owner.replayProp.setProperty(playerID + ".tuning.owMinDAS", owMinDAS);
@@ -1645,6 +1654,8 @@ public class GameEngine {
 		owner.replayProp.setProperty(playerID + ".tuning.owDasDelay", owDasDelay);
 		owner.replayProp.setProperty(playerID + ".tuning.owReverseUpDown", owReverseUpDown);
 		owner.replayProp.setProperty(playerID + ".tuning.owMoveDiagonal", owMoveDiagonal);
+        owner.replayProp.setProperty(playerID + ".tuning.owBlockOutlineType", owBlockOutlineType);
+		owner.replayProp.setProperty(playerID + ".tuning.owBlockShowOutlineOnly", owBlockShowOutlineOnly);
 
 		if(owner.mode != null) owner.mode.saveReplay(this, playerID, owner.replayProp);
 	}

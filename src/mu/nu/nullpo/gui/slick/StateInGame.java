@@ -152,6 +152,7 @@ public class StateInGame extends BasicGameState {
 			// チューニング設定
 			gameManager.engine[i].owRotateButtonDefaultRight = NullpoMinoSlick.propGlobal.getProperty(i + ".tuning.owRotateButtonDefaultRight", -1);
 			gameManager.engine[i].owSkin = NullpoMinoSlick.propGlobal.getProperty(i + ".tuning.owSkin", -1);
+            gameManager.engine[i].gSkin = NullpoMinoSlick.propGlobal.getProperty(i + ".tuning.gSkin", gameManager.engine[i].owSkin);
 			gameManager.engine[i].owMinDAS = NullpoMinoSlick.propGlobal.getProperty(i + ".tuning.owMinDAS", -1);
 			gameManager.engine[i].owMaxDAS = NullpoMinoSlick.propGlobal.getProperty(i + ".tuning.owMaxDAS", -1);
 			gameManager.engine[i].owDasDelay = NullpoMinoSlick.propGlobal.getProperty(i + ".tuning.owDasDelay", -1);

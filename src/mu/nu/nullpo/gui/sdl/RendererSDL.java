@@ -689,7 +689,8 @@ public class RendererSDL extends EventReceiver {
 							if(engine.nowPieceColorOverride >= 0) {
 								blkTemp.color = engine.nowPieceColorOverride;
 							}
-							drawBlock(x + (x2 * blksize), y + (y2 * blksize), blkTemp, scale);
+							drawBlock(x + (x2 * blksize), y + (y2 * blksize), blkTemp.color, engine.gSkin,
+                                    blkTemp.getAttribute(Block.BLOCK_ATTRIBUTE_BONE), blkTemp.darkness, blkTemp.alpha, scale);
 						}
 					}
 				} else {
@@ -742,7 +743,8 @@ public class RendererSDL extends EventReceiver {
 						if(engine.nowPieceColorOverride >= 0) {
 							blkTemp.color = engine.nowPieceColorOverride;
 						}
-						drawBlock(x + (x2 * blksize), y + (y2 * blksize), blkTemp, scale * 2.0f);
+						drawBlock(x + (x2 * blksize), y + (y2 * blksize), blkTemp.color, engine.gSkin,
+                                    blkTemp.getAttribute(Block.BLOCK_ATTRIBUTE_BONE), blkTemp.darkness, blkTemp.alpha, scale * 2.0f);
 					}
 				}
 			}

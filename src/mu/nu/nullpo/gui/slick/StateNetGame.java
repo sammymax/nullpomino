@@ -324,6 +324,7 @@ public class StateNetGame extends BasicGameState implements NetLobbyListener {
 			// Tuning
 			gameManager.engine[0].owRotateButtonDefaultRight = NullpoMinoSlick.propGlobal.getProperty(0 + ".tuning.owRotateButtonDefaultRight", -1);
 			gameManager.engine[0].owSkin = NullpoMinoSlick.propGlobal.getProperty(0 + ".tuning.owSkin", -1);
+            gameManager.engine[0].gSkin = NullpoMinoSlick.propGlobal.getProperty(0 + ".tuning.gSkin", gameManager.engine[0].owSkin);
 			gameManager.engine[0].owMinDAS = NullpoMinoSlick.propGlobal.getProperty(0 + ".tuning.owMinDAS", -1);
 			gameManager.engine[0].owMaxDAS = NullpoMinoSlick.propGlobal.getProperty(0 + ".tuning.owMaxDAS", -1);
 			gameManager.engine[0].owDasDelay = NullpoMinoSlick.propGlobal.getProperty(0 + ".tuning.owDasDelay", -1);

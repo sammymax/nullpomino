@@ -975,6 +975,7 @@ public class NullpoMinoSwing extends JFrame implements ActionListener, NetLobbyL
 			// チューニング設定
 			gameManager.engine[i].owRotateButtonDefaultRight = propGlobal.getProperty(i + ".tuning.owRotateButtonDefaultRight", -1);
 			gameManager.engine[i].owSkin = propGlobal.getProperty(i + ".tuning.owSkin", -1);
+            gameManager.engine[i].gSkin = propGlobal.getProperty(i + ".tuning.gSkin", gameManager.engine[i].owSkin);
 			gameManager.engine[i].owMinDAS = propGlobal.getProperty(i + ".tuning.owMinDAS", -1);
 			gameManager.engine[i].owMaxDAS = propGlobal.getProperty(i + ".tuning.owMaxDAS", -1);
 			gameManager.engine[i].owDasDelay = propGlobal.getProperty(i + ".tuning.owDasDelay", -1);
@@ -1153,6 +1154,7 @@ public class NullpoMinoSwing extends JFrame implements ActionListener, NetLobbyL
 			// Tuning
 			gameManager.engine[0].owRotateButtonDefaultRight = NullpoMinoSwing.propGlobal.getProperty(0 + ".tuning.owRotateButtonDefaultRight", -1);
 			gameManager.engine[0].owSkin = NullpoMinoSwing.propGlobal.getProperty(0 + ".tuning.owSkin", -1);
+            gameManager.engine[0].gSkin = NullpoMinoSwing.propGlobal.getProperty(0 + ".tuning.gSkin", gameManager.engine[0].owSkin);
 			gameManager.engine[0].owMinDAS = NullpoMinoSwing.propGlobal.getProperty(0 + ".tuning.owMinDAS", -1);
 			gameManager.engine[0].owMaxDAS = NullpoMinoSwing.propGlobal.getProperty(0 + ".tuning.owMaxDAS", -1);
 			gameManager.engine[0].owDasDelay = NullpoMinoSwing.propGlobal.getProperty(0 + ".tuning.owDasDelay", -1);
