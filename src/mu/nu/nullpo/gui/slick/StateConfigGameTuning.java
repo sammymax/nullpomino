@@ -57,6 +57,7 @@ public class StateConfigGameTuning extends BaseGameState {
 	protected static final String[] UI_TEXT = {
 		"GameTuning_RotateButtonDefaultRight",
 		"GameTuning_Skin",
+		"Select appearance of ghost piece",
 		"GameTuning_MinDAS",
 		"GameTuning_MaxDAS",
 		"GameTuning_DasDelay",
@@ -93,6 +94,9 @@ public class StateConfigGameTuning extends BaseGameState {
 
 	/** Block Skin -1=Auto 0 or above=Fixed */
 	protected int owSkin;
+	
+	/** -1 for inherit from owSkin */
+	protected int gSkin;
 
 	/** Min/Max DAS -1=Auto 0 or above=Fixed */
 	protected int owMinDAS, owMaxDAS;
@@ -139,6 +143,7 @@ public class StateConfigGameTuning extends BaseGameState {
 	protected void loadConfig(CustomProperties prop) {
 		owRotateButtonDefaultRight = prop.getProperty(player + ".tuning.owRotateButtonDefaultRight", -1);
 		owSkin = prop.getProperty(player + ".tuning.owSkin", -1);
+		gSkin = prop.getProperty(player + ".tuning.gSkin", -1);
 		owMinDAS = prop.getProperty(player + ".tuning.owMinDAS", -1);
 		owMaxDAS = prop.getProperty(player + ".tuning.owMaxDAS", -1);
 		owDasDelay = prop.getProperty(player + ".tuning.owDasDelay", -1);
@@ -155,6 +160,7 @@ public class StateConfigGameTuning extends BaseGameState {
 	protected void saveConfig(CustomProperties prop) {
 		prop.setProperty(player + ".tuning.owRotateButtonDefaultRight", owRotateButtonDefaultRight);
 		prop.setProperty(player + ".tuning.owSkin", owSkin);
+		prop.setProperty(player + ".tuning.gSkin", gSkin);
 		prop.setProperty(player + ".tuning.owMinDAS", owMinDAS);
 		prop.setProperty(player + ".tuning.owMaxDAS", owMaxDAS);
 		prop.setProperty(player + ".tuning.owDasDelay", owDasDelay);
@@ -198,6 +204,7 @@ public class StateConfigGameTuning extends BaseGameState {
 			// Tuning
 			gameManager.engine[i].owRotateButtonDefaultRight = owRotateButtonDefaultRight;
 			gameManager.engine[i].owSkin = owSkin;
+			gameManager.engine[i].gSkin = gSkin;
 			gameManager.engine[i].owMinDAS = owMinDAS;
 			gameManager.engine[i].owMaxDAS = owMaxDAS;
 			gameManager.engine[i].owDasDelay = owDasDelay;
@@ -311,25 +318,39 @@ public class StateConfigGameTuning extends BaseGameState {
 					imgBlock.draw(256, 64, 256+144, 64+16, 0, 0, 144, 16);
 				}
 			}
+            
+            NormalFontSlick.printFontGrid(2, 5, "GHOST SKIN:" + ((gSkin == -1) ? "AUTO": String.valueOf(gSkin)), (cursor == 2));
+			if((gSkin >= 0) && (gSkin < ResourceHolderSlick.imgNormalBlockList.size())) {
+				//ResourceHolder.imgBlock.draw(256, 64, 256 + 144, 64 + 16, 0, owSkin * 16, 144, (owSkin * 16) + 16);
+				Image imgBlock = ResourceHolderSlick.imgNormalBlockList.get(gSkin);
 
-			NormalFontSlick.printFontGrid(2, 5, "MIN DAS:" + ((owMinDAS == -1) ? "AUTO" : String.valueOf(owMinDAS)), (cursor == 2));
-			NormalFontSlick.printFontGrid(2, 6, "MAX DAS:" + ((owMaxDAS == -1) ? "AUTO" : String.valueOf(owMaxDAS)), (cursor == 3));
-			NormalFontSlick.printFontGrid(2, 7, "DAS DELAY:" + ((owDasDelay == -1) ? "AUTO" : String.valueOf(owDasDelay)), (cursor == 4));
-			NormalFontSlick.printFontGrid(2, 8, "REVERSE UP/DOWN:" + GeneralUtil.getOorX(owReverseUpDown), (cursor == 5));
+				if(ResourceHolderSlick.blockStickyFlagList.get(gSkin) == true) {
+					for(int j = 0; j < 9; j++) {
+						imgBlock.draw(256 + (j * 16), 80, 256 + (j * 16) + 16, 80 + 16, 0, (j * 16), 16, (j * 16) + 16);
+					}
+				} else {
+					imgBlock.draw(256, 80, 256+144, 80+16, 0, 0, 144, 16);
+				}
+			}
+
+			NormalFontSlick.printFontGrid(2, 6, "MIN DAS:" + ((owMinDAS == -1) ? "AUTO" : String.valueOf(owMinDAS)), (cursor == 3));
+			NormalFontSlick.printFontGrid(2, 7, "MAX DAS:" + ((owMaxDAS == -1) ? "AUTO" : String.valueOf(owMaxDAS)), (cursor == 4));
+			NormalFontSlick.printFontGrid(2, 8, "DAS DELAY:" + ((owDasDelay == -1) ? "AUTO" : String.valueOf(owDasDelay)), (cursor == 5));
+			NormalFontSlick.printFontGrid(2, 9, "REVERSE UP/DOWN:" + GeneralUtil.getOorX(owReverseUpDown), (cursor == 6));
 
 			if(owMoveDiagonal == -1) strTemp = "AUTO";
 			if(owMoveDiagonal == 0) strTemp = "e";
 			if(owMoveDiagonal == 1) strTemp = "c";
-			NormalFontSlick.printFontGrid(2, 9, "DIAGONAL MOVE:" + strTemp, (cursor == 6));
+			NormalFontSlick.printFontGrid(2, 10, "DIAGONAL MOVE:" + strTemp, (cursor == 7));
 
-			NormalFontSlick.printFontGrid(2, 10, "OUTLINE TYPE:" + OUTLINE_TYPE_NAMES[owBlockOutlineType + 1], (cursor == 7));
+			NormalFontSlick.printFontGrid(2, 11, "OUTLINE TYPE:" + OUTLINE_TYPE_NAMES[owBlockOutlineType + 1], (cursor == 8));
 
 			if(owBlockShowOutlineOnly == -1) strTemp = "AUTO";
 			if(owBlockShowOutlineOnly == 0) strTemp = "e";
 			if(owBlockShowOutlineOnly == 1) strTemp = "c";
-			NormalFontSlick.printFontGrid(2, 11, "SHOW OUTLINE ONLY:" + strTemp, (cursor == 8));
+			NormalFontSlick.printFontGrid(2, 12, "SHOW OUTLINE ONLY:" + strTemp, (cursor == 9));
 
-			NormalFontSlick.printFontGrid(2, 12, "[PREVIEW]", (cursor == 9));
+			NormalFontSlick.printFontGrid(2, 13, "[PREVIEW]", (cursor == 10));
 
 			if((cursor >= 0) && (cursor < UI_TEXT.length)) NormalFontSlick.printTTFFont(16, 432, NullpoMinoSlick.getUIText(UI_TEXT[cursor]));
 		}
@@ -402,40 +423,45 @@ public class StateConfigGameTuning extends BaseGameState {
 					if(owSkin < -1) owSkin = ResourceHolderSlick.imgNormalBlockList.size() - 1;
 					if(owSkin > ResourceHolderSlick.imgNormalBlockList.size() - 1) owSkin = -1;
 					break;
-				case 2:
+                case 2:
+                    gSkin += change;
+                    if (gSkin < -1) gSkin = ResourceHolderSlick.imgNormalBlockList.size() - 1;
+                    if (gSkin > ResourceHolderSlick.imgNormalBlockList.size() - 1) gSkin = -1;
+                    break;
+				case 3:
 					owMinDAS += change;
 					if(owMinDAS < -1) owMinDAS = 99;
 					if(owMinDAS > 99) owMinDAS = -1;
 					break;
-				case 3:
+				case 4:
 					owMaxDAS += change;
 					if(owMaxDAS < -1) owMaxDAS = 99;
 					if(owMaxDAS > 99) owMaxDAS = -1;
 					break;
-				case 4:
+				case 5:
 					owDasDelay += change;
 					if(owDasDelay < -1) owDasDelay = 99;
 					if(owDasDelay > 99) owDasDelay = -1;
 					break;
-				case 5:
+				case 6:
 					owReverseUpDown ^= true;
 					break;
-				case 6:
+				case 7:
 					owMoveDiagonal += change;
 					if(owMoveDiagonal < -1) owMoveDiagonal = 1;
 					if(owMoveDiagonal > 1) owMoveDiagonal = -1;
 					break;
-				case 7:
+				case 8:
 					owBlockOutlineType += change;
 					if(owBlockOutlineType < -1) owBlockOutlineType = 3;
 					if(owBlockOutlineType > 3) owBlockOutlineType = -1;
 					break;
-				case 8:
+				case 9:
 					owBlockShowOutlineOnly += change;
 					if(owBlockShowOutlineOnly < -1) owBlockShowOutlineOnly = 1;
 					if(owBlockShowOutlineOnly > 1) owBlockShowOutlineOnly = -1;
 					break;
-				case 9:
+				case 10:
 					break;
 				}
 			}
